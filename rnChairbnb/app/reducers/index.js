@@ -6,15 +6,48 @@ const initialState = {
 	locations: [],
 	orders: [],
 	saved: [],
-	inbox: []
+	inbox: [],
+	validBooking: false
 }
 
 const GOT_LOCATIONS = 'GOT_LOCATIONS'
+const VALID_BOOKING = 'VALID_BOOKING'
+const INVALID_BOOKING = 'INVALID_BOOKING'
 
 export const gotLocations = (locations) => ({
 	type: GOT_LOCATIONS,
 	locations
 })
+
+export const validBooking = () => ({
+	type: VALID_BOOKING
+})
+
+export const invalidBooking = () => ({
+	type: INVALID_BOOKING
+})
+
+export const checkBooking = (dates) => {
+	return function(dispatch) {
+		return axios({
+			url: 'http://localhost:3000/api/orders/1',
+			method: 'post',
+			data: dates
+		})
+			.then(res => res.data)
+			.then(orders => {
+				if(orders === null || orders.length === 0) {
+					//if no orders where found from query, time is available
+					const action = validBooking()
+					dispatch(action)
+				} else {
+					const action = invalidBooking()
+					dispatch(action)
+				}
+			})
+			.catch(err => console.log(err))
+	}
+}
 
 export const fetchLocations = () => {
 	return function(dispatch) {
@@ -32,6 +65,10 @@ const rootReducer = (state = initialState, action) => {
 	switch(action.type) {
 	case GOT_LOCATIONS:
 		return { ...state, locations: action.locations }
+	case INVALID_BOOKING:
+		return {...state, validBooking: false }
+	case VALID_BOOKING:
+		return {...state, validBooking: true }
 	default:
 		return { ...state }
 	}

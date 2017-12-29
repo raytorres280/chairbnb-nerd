@@ -14,7 +14,7 @@ router.get('/:id', (req, res) => {
   .catch(err => console.log(err))
 })
 //booking
-router.get('/:locId', (req, res) => {
+router.post('/:locId', (req, res) => {
 	Order.findOne({ where: { locationId: req.params.locId } })
 	.then(row => res.json(row))
 	.catch(err => console.log(err))

@@ -8,8 +8,10 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "dates-between": "^1.1.0",
     "react": "16.0.0",
     "react-native": "0.51.0",
+    "react-native-calendar-select": "^0.1.2",
     "react-native-calendars": "^1.16.1",
     "react-native-vector-icons": "^4.4.3",
     "react-navigation": "^1.0.0-beta.22",

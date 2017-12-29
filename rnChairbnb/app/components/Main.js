@@ -13,7 +13,7 @@ import Profile from './Profile'
 import LocationDetails from './LocationDetails'
 import Settings from './Settings'
 import CalendarBooking from './CalendarBooking'
-
+import BuyScreen from './BuyScreen'
 //TODO: LOGIN screen CONDITIONAL comp
 
 export const ExploreStack = StackNavigator({
@@ -35,7 +35,6 @@ export const ExploreStack = StackNavigator({
 			title: 'Select your days',
 			mode: 'modal'
 		})
-
 	}
 })
 
