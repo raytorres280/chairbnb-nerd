@@ -7,7 +7,8 @@ const initialState = {
 	orders: [],
 	saved: [],
 	inbox: [],
-	validBooking: false
+	validBooking: false,
+	conflictingOrders: []
 }
 
 const GOT_LOCATIONS = 'GOT_LOCATIONS'
@@ -23,8 +24,9 @@ export const validBooking = () => ({
 	type: VALID_BOOKING
 })
 
-export const invalidBooking = () => ({
-	type: INVALID_BOOKING
+export const invalidBooking = (orders) => ({
+	type: INVALID_BOOKING,
+	orders
 })
 
 export const checkBooking = (dates) => {
@@ -41,7 +43,7 @@ export const checkBooking = (dates) => {
 					const action = validBooking()
 					dispatch(action)
 				} else {
-					const action = invalidBooking()
+					const action = invalidBooking(orders)
 					dispatch(action)
 				}
 			})
@@ -66,7 +68,7 @@ const rootReducer = (state = initialState, action) => {
 	case GOT_LOCATIONS:
 		return { ...state, locations: action.locations }
 	case INVALID_BOOKING:
-		return {...state, validBooking: false }
+		return {...state, validBooking: false, conflictingOrders: action.orders }
 	case VALID_BOOKING:
 		return {...state, validBooking: true }
 	default:

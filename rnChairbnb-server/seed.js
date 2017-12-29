@@ -124,6 +124,58 @@ const users = [
 	}
 ]
 
+const orders = [
+	{
+		is_active: true,
+		start_date: new Date('2017-12-25'),
+		end_date: new Date('2017-12-28'),
+	  days_rented: 3,
+	  coupon: '',
+	  total: 345.25,
+		userId: 1,
+		locationId: 1
+	},
+	{
+		is_active: true,
+		start_date: new Date('2017-12-3'),
+		end_date: new Date('2017-12-9'),
+	  days_rented: 3,
+	  coupon: '',
+	  total: 345.25,
+		userId: 1,
+		locationId: 1
+	},
+	{
+		is_active: true,
+		start_date: new Date('2017-12-1'),
+		end_date: new Date('2017-12-2'),
+	  days_rented: 3,
+	  coupon: '',
+	  total: 345.25,
+		userId: 1,
+		locationId: 1
+	},
+	{
+		is_active: false,
+		start_date: new Date('2017-12-3'),
+		end_date: new Date('2017-12-9'),
+	  days_rented: 6,
+	  coupon: '',
+	  total: 2000.10,
+		userId: 1,
+		locationId: 2
+	},
+	{
+		is_active: true,
+		start_date: new Date('2017-12-1'),
+		end_date: new Date('2017-12-2'),
+	  days_rented: 4,
+	  coupon: '',
+	  total: 7000.00,
+		userId: 1,
+		locationId: 3
+	}
+]
 
 const seed = () =>
 	Promise.all(hosts.map(host =>
@@ -139,6 +191,12 @@ const seed = () =>
 	Promise.all(users.map(user => {
 		console.log('locations done')
 		User.create(user)
+		})
+	))
+	.then(() =>
+	Promise.all(orders.map(order => {
+		console.log('orders done')
+		Order.create(order)
 		})
 	))
 

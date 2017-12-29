@@ -16,7 +16,7 @@ export default class LocationDetails extends Component {
 	handleCheckBtnPress() {
 		console.log(this.props)
 		// this.props.nav.navigate('Booking')
-		this.props.navigation.navigate('Booking')
+		this.props.navigation.navigate('Booking', {})
 	}
 
 	render() {

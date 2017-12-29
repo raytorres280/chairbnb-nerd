@@ -15,8 +15,36 @@ router.get('/:id', (req, res) => {
 })
 //booking
 router.post('/:locId', (req, res) => {
-	Order.findOne({ where: { locationId: req.params.locId } })
-	.then(row => res.json(row))
+	let locId = req.params.locId
+	let dates = req.body
+	let start = dates[0]
+	let end = dates[dates.length - 1]
+	console.log(dates)
+
+	//if there is a row returned from this query, there are conflicting dates.
+	Order.findAndCountAll({
+		where: {
+			locationId: req.params.locId,
+			is_active: true,
+			$or: [
+			  {
+					end_date: {
+						$between: [start, end]
+					}
+				},
+				{
+					start_date: {
+						$between: [start, end]
+					}
+				}
+			]
+		}
+	})
+	.then(rows => rows === null ? res.json(rows) : rows)
+	.then(orders => {
+		console.log(orders)
+		res.json(orders.rows)
+	})
 	.catch(err => console.log(err))
 })
 router.post('/', (req, res) => {

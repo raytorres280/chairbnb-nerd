@@ -19,7 +19,7 @@ class BuyScreen extends Component {
 				<View style={styles.modal}>
 					<Button
 						title="close"
-						onPress={() => console.log('close')}
+						onPress={this.props.toggle}
 					/>
 					<Text>Buy Screen</Text>
 					<Button
