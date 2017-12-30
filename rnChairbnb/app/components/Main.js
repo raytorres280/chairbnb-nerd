@@ -20,29 +20,38 @@ export const ExploreStack = StackNavigator({
 	Explore: {
 		screen: Explore,
 		navigationOptions: {
-			title: 'Explore',
+			title: '',
+			headerStyle: {
+				height: 0,
+			}
 		},
 	},
 	Details: {
 		screen: LocationDetails,
-		// navigationOptions: ({ navigation }) => ({
-		//   title: `${navigation.state.params.name.first.toUpperCase()} ${navigation.state.params.name.last.toUpperCase()}`,
-		// }),
+		navigationOptions: {
+			tabBarVisible: false,
+			headerStyle: {
+				height: 25,
+			}
+		}
 	},
 	Booking: {
 		screen: CalendarBooking,
-		navigationOptions: ({navigation}) => ({
+		navigationOptions: () => ({
 			title: 'Select your days',
-			mode: 'modal'
+			mode: 'modal',
+			tabBarVisible: false
 		})
 	}
+}, {
+	animationEnabled: false,
 })
 
 export const Tabs = TabNavigator({
 	Explore: {
 		screen: ExploreStack,
 		navigationOptions: {
-			tabBarLabel: 'Explore',
+			tabBarLabel: 'Explossre',
 			tabBarIcon: ({ tintColor }) => <Icon name="ios-search" size={35} color={tintColor} />,
 		},
 	},

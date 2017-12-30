@@ -14,6 +14,7 @@ const initialState = {
 const GOT_LOCATIONS = 'GOT_LOCATIONS'
 const VALID_BOOKING = 'VALID_BOOKING'
 const INVALID_BOOKING = 'INVALID_BOOKING'
+const GOT_ORDERS = 'GOT_ORDERS'
 
 export const gotLocations = (locations) => ({
 	type: GOT_LOCATIONS,
@@ -51,6 +52,33 @@ export const checkBooking = (dates) => {
 	}
 }
 
+export const createOrder = (location, dates) => {
+	return function(dispatch) {
+		return axios({
+			url: 'http://localhost:3000/api/orders/',
+			method: 'post',
+			data: {
+				location,
+				dates
+			}
+		})
+			.then(res => res.data)
+			.then(orders => {
+				console.log(orders)
+				const action = gotOrders(orders)
+				// if(orders === null || orders.length === 0) {
+				// 	//if no orders where found from query, time is available
+				// 	const action = validBooking()
+				// 	dispatch(action)
+				// } else {
+				// 	const action = invalidBooking(orders)
+				// 	dispatch(action)
+				// }
+			})
+			.catch(err => console.log(err))
+	}
+}
+
 export const fetchLocations = () => {
 	return function(dispatch) {
 		return axios.get('http://localhost:3000/api/locations')
@@ -71,6 +99,9 @@ const rootReducer = (state = initialState, action) => {
 		return {...state, validBooking: false, conflictingOrders: action.orders }
 	case VALID_BOOKING:
 		return {...state, validBooking: true }
+	case GOT_ORDERS:
+		return {...state, orders: state.orders.append}
+
 	default:
 		return { ...state }
 	}

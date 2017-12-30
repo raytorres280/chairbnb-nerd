@@ -111,9 +111,12 @@ class CalendarBooking extends Component {
 					/>
 				</View>
 				<BuyScreen
+					dates={Object.keys(this.state.dates)}
+					location={this.props.navigation.state.params.location}
 					toggle={this.toggleModal}
 					show={this.props.validBooking}
 					animationType="slide"
+					navigation={this.props.navigation}
 				/>
 			</View>
 		)

@@ -24,7 +24,7 @@ class Explore extends Component {
 	render() {
 		let list
 		if(this.props.locations.length > 0) {
-			list = this.props.locations.map(loc => <LocationCard navigate={this.props.navigation.navigate} key={loc.id} location={loc}/>)
+			list = this.props.locations.map(loc => <LocationCard navigation={this.props.navigation} key={loc.id} location={loc}/>)
 		}
 		return(
 			<View style={styles.container}>

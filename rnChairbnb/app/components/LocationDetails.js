@@ -5,23 +5,24 @@ import Icon from 'react-native-vector-icons/Ionicons'
 export default class LocationDetails extends Component {
 	constructor(props) {
 		super(props)
+		console.log(props)
 		this.state = {
-			didCheck: false,
-			isAvailable: false,
-			startDate: null,
-			endDate: null
+			map: null //something to do with map that isnt there yet.
 		}
 	}
 
 	handleCheckBtnPress() {
 		console.log(this.props)
 		// this.props.nav.navigate('Booking')
-		this.props.navigation.navigate('Booking', {})
+		this.props.navigation.navigate('Booking', {
+			location: this.props.navigation.state.params.location,
+
+		})
 	}
 
 	render() {
 		return(
-			<View style={{ flex: 1 }}>
+			<View style={{ flex: 1, backgroundColor: 'snow' }}>
 				<ScrollView style={styles.scrollContainer}>
 					<Image
 						source={{ uri: 'https://image.architonic.com/imgTre/09_11/plastik-Vertex-KarimRashid-14-b.jpg' }}
@@ -112,15 +113,20 @@ const styles = StyleSheet.create({
 	},
 	floatingCheckButton: {
 		flex: .12,
-		backgroundColor: 'aqua',
+		backgroundColor: 'floralwhite',
 		flexDirection: 'row',
 		justifyContent: 'space-around',
-		alignItems: 'center'
+		alignItems: 'center',
+		shadowOpacity: 0.75,
+		shadowRadius: 3,
+		shadowColor: 'black',
+		shadowOffset: { height: 0, width: 0 },
 	},
 	checkBtn: {
+		borderRadius: 5,
 		padding: 10,
-		paddingLeft: 20,
-		paddingRight: 20,
-		backgroundColor: 'red'
+		paddingLeft: 40,
+		paddingRight: 40,
+		backgroundColor: '#fe5b61'
 	}
 })
