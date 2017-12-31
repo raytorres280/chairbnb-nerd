@@ -14,6 +14,7 @@ import LocationDetails from './LocationDetails'
 import Settings from './Settings'
 import CalendarBooking from './CalendarBooking'
 import BuyScreen from './BuyScreen'
+import TripDetails from './TripDetails'
 //TODO: LOGIN screen CONDITIONAL comp
 
 export const ExploreStack = StackNavigator({
@@ -46,6 +47,28 @@ export const ExploreStack = StackNavigator({
 }, {
 	animationEnabled: false,
 })
+export const TripsStack = StackNavigator({
+	Trips: {
+		screen: Trips,
+		navigationOptions: {
+			title: '',
+			headerStyle: {
+				height: 0,
+			}
+		},
+	},
+	TripDetails: {
+		screen: TripDetails,
+		navigationOptions: {
+			tabBarVisible: false,
+			headerStyle: {
+				height: 25,
+			}
+		}
+	},
+}, {
+	animationEnabled: false,
+})
 
 export const Tabs = TabNavigator({
 	Explore: {
@@ -63,9 +86,9 @@ export const Tabs = TabNavigator({
 		},
 	},
 	Trips: {
-		screen: Trips,
+		screen: TripsStack,
 		navigationOptions: {
-			tabBarLabel: 'Me',
+			tabBarLabel: 'Trips',
 			tabBarIcon: ({ tintColor }) => <Icon name="ios-jet-outline" size={35} color={tintColor} />
 		},
 	},

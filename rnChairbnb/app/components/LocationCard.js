@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import Search from './Search'
 
 const LocationCard = (props) => {
-	console.log(props)
-	console.log(props.location)
 
 	const goDetails = () => {
 		props.navigation.navigate('Details', { location: props.location })

@@ -1,26 +1,46 @@
 import React, { Component } from 'react'
 import { View, ScrollView, Text, Image, StyleSheet, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { connect } from 'react-redux'
+import { createFav } from '../reducers'
+import store from '../store'
 
-export default class LocationDetails extends Component {
+class LocationDetails extends Component {
 	constructor(props) {
 		super(props)
-		console.log(props)
 		this.state = {
-			map: null //something to do with map that isnt there yet.
+			map: null, //something to do with map that isnt there yet.
+			isFavorite: props.saved.filter((savedLoc) => (this.props.navigation.state.params.location.id === savedLoc.id))
 		}
 	}
 
 	handleCheckBtnPress() {
-		console.log(this.props)
-		// this.props.nav.navigate('Booking')
 		this.props.navigation.navigate('Booking', {
 			location: this.props.navigation.state.params.location,
 
 		})
 	}
 
+	componentWillReceiveProps(newProps) {
+		if(newProps.saved.length > this.props.saved.length) {
+			let bool = this.props.saved.filter((savedLoc) => (this.props.navigation.state.params.location.id === savedLoc.id))
+			this.setState({
+				isFavorite: bool
+			})
+		}
+	}
+
+	handleFavToggle() {
+		if(!this.state.isFavorite) {
+			const thunk = createFav(this.props.navigation.state.params.location)
+			store.dispatch(thunk)
+		} else {
+			//remoe from savedLoc
+		}
+	}
 	render() {
+		let loc = this.props.navigation.state.params.location
+		let favIcon = (this.state.isFavorite ? <Icon color="#fe5b61" name="ios-heart" size={35}/> : <Icon color="#fe5b61" name="ios-heart-outline" size={35}/>)
 		return(
 			<View style={{ flex: 1, backgroundColor: 'snow' }}>
 				<ScrollView style={styles.scrollContainer}>
@@ -28,10 +48,10 @@ export default class LocationDetails extends Component {
 						source={{ uri: 'https://image.architonic.com/imgTre/09_11/plastik-Vertex-KarimRashid-14-b.jpg' }}
 						style={styles.image}
 					/>
-					<Text style={styles.title}>Hipster Chair</Text>
+					<Text style={styles.title}>{loc.chair}</Text>
 
 					<View style={styles.hostContainer}>
-						<Text>Hosted by: Hipster</Text>
+						<Text style={{fontSize: 20}}>Hosted by: {loc.host.first}</Text>
 						<Image
 							source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'}}
 							style={styles.thumbnail}
@@ -43,10 +63,10 @@ export default class LocationDetails extends Component {
 					</View>
 
 					<View style={styles.description}>
-						<Text>This is a nice chair, it is extremely uncomfortable</Text>
+						<Text>{loc.description}</Text>
 					</View>
 
-					<Text>1 day minimum</Text>
+					<Text>{loc.minimum_stay_length} day minimum</Text>
 
 					<View style={styles.amenities}>
 						<Icon name="ios-wifi-outline" size={40} />
@@ -58,6 +78,7 @@ export default class LocationDetails extends Component {
 					{/* reviews */}
 				</ScrollView>
 				<View style={styles.floatingCheckButton}>
+					<TouchableHighlight onPress={() => this.handleFavToggle()}>{favIcon}</TouchableHighlight>
 					<Text>Check availability</Text>
 					<TouchableHighlight style={styles.checkBtn} onPress={() => this.handleCheckBtnPress()}><Text>Check</Text></TouchableHighlight>
 				</View>
@@ -65,6 +86,15 @@ export default class LocationDetails extends Component {
 		)
 	}
 }
+
+const mapState = (state) => {
+	return {
+		saved: state.saved
+	}
+}
+
+export default connect(mapState)(LocationDetails)
+
 const styles = StyleSheet.create({
 	image: {
 		height: 200,

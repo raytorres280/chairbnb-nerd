@@ -15,6 +15,8 @@ const GOT_LOCATIONS = 'GOT_LOCATIONS'
 const VALID_BOOKING = 'VALID_BOOKING'
 const INVALID_BOOKING = 'INVALID_BOOKING'
 const GOT_ORDERS = 'GOT_ORDERS'
+const CREATED_ORDER = 'CREATED_ORDER'
+const CREATED_FAV = 'CREATED_FAV'
 
 export const gotLocations = (locations) => ({
 	type: GOT_LOCATIONS,
@@ -30,21 +32,62 @@ export const invalidBooking = (orders) => ({
 	orders
 })
 
-export const checkBooking = (dates) => {
+export const createdOrder = (order) => ({
+	type: CREATED_ORDER,
+	order
+})
+
+export const gotOrders = (orders) => ({
+	type: GOT_ORDERS,
+		orders
+})
+
+export const createdFav = (loc) => ({
+	type: CREATED_FAV,
+	location: loc
+})
+
+export const createFav = (loc) => {
+	return function(dispatch) {
+		const action = createdFav(loc)
+		dispatch(action)
+	}
+}
+
+//change to post for security later
+export const fetchOrders = (user) => {
+	return function(dispatch) {
+		return axios.get(`http://localhost:3000/api/orders/all/${user.id}`)
+			.then(res => res.data)
+			.then(results => {
+				if(results.count > 0) {
+					//if no orders where found from query, time is available
+					const action = gotOrders(results.rows)
+					dispatch(action)
+				} else {
+					const action = gotOrders([])
+					dispatch(action)
+				}
+			})
+			.catch(err => console.log(err))
+	}
+}
+
+export const checkBooking = (dates, loc) => {
 	return function(dispatch) {
 		return axios({
-			url: 'http://localhost:3000/api/orders/1',
+			url: `http://localhost:3000/api/orders/${loc.id}`,
 			method: 'post',
 			data: dates
 		})
 			.then(res => res.data)
-			.then(orders => {
-				if(orders === null || orders.length === 0) {
+			.then(results => {
+				if(results.count < 1) {
 					//if no orders where found from query, time is available
 					const action = validBooking()
 					dispatch(action)
 				} else {
-					const action = invalidBooking(orders)
+					const action = invalidBooking(results.rows)
 					dispatch(action)
 				}
 			})
@@ -62,18 +105,20 @@ export const createOrder = (location, dates) => {
 				dates
 			}
 		})
-			.then(res => res.data)
-			.then(orders => {
-				console.log(orders)
-				const action = gotOrders(orders)
-				// if(orders === null || orders.length === 0) {
-				// 	//if no orders where found from query, time is available
-				// 	const action = validBooking()
-				// 	dispatch(action)
-				// } else {
-				// 	const action = invalidBooking(orders)
-				// 	dispatch(action)
-				// }
+			.then(results => results.data)
+			.then(data => {
+				console.log(data)
+				// const action = gotOrders(orders)
+				// dispatch(action)
+
+				if(data.created) {
+					//if no orders where found from query, time is available
+					const action = createdOrder(data.orders[0])
+					dispatch(action)
+				} else {
+					const action = invalidBooking(data.orders)
+					dispatch(action)
+				}
 			})
 			.catch(err => console.log(err))
 	}
@@ -100,8 +145,11 @@ const rootReducer = (state = initialState, action) => {
 	case VALID_BOOKING:
 		return {...state, validBooking: true }
 	case GOT_ORDERS:
-		return {...state, orders: state.orders.append}
-
+		return {...state, orders: action.orders }
+	case CREATED_ORDER:
+		return {...state, orders: [...state.orders, action.order]}
+	case CREATED_FAV:
+		return {...state, saved: [...state.saved, action.location]}
 	default:
 		return { ...state }
 	}

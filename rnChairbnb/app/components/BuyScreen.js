@@ -12,7 +12,7 @@ class BuyScreen extends Component {
 	}
 
 	componentWillReceiveProps(newProps) {
-		if(newProps.orders.length > this.props.orders.legnth) {
+		if(newProps.orders.length > this.props.orders.length) {
 			this.props.toggle()
 			this.props.navigation.goBack(null)
 		}

@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
-import { Text, ScrollView, View, StyleSheet, TouchableHighlight, Image } from 'react-native'
-import { connect } from 'react-redux'
-import Search from './Search'
-import LocationCard from './LocationCard'
-import { fetchLocations } from '../reducers'
-import store from '../store'
+import { StyleSheet, TouchableHighlight, Text, View, Image } from 'react-native'
 
-class SavedLocationCard extends Component {
+class OrderCard extends Component {
+
 	constructor(props) {
 		super(props)
-	}
+		this.state = {
 
+		}
+	}
 	render() {
 		return (
 			<View style={styles.card}>
@@ -47,6 +45,9 @@ class SavedLocationCard extends Component {
 						}}
 					>
 						<View style={styles.toasts}>
+							<View style={styles.isActive}>
+								<Text style={{textAlign: 'center'}}>{ this.props.order.is_active ? 'Active' : 'Closed' }</Text>
+							</View>
 							<TouchableHighlight
 								style={styles.edit}
 								onPress={() => this.props.navigation
@@ -63,13 +64,61 @@ class SavedLocationCard extends Component {
 		)
 	}
 }
+
+export default OrderCard
+
 const styles = StyleSheet.create({
-	container: {
+	card: {
 		flex: 1,
 		justifyContent: 'center',
+		backgroundColor: 'green',
+		borderRadius: 5,
+		borderWidth: .15,
+		marginTop: 10,
+		marginBottom: 10,
+		marginRight: 5,
+		marginLeft: 5,
+	},
+	toasts: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 		alignItems: 'center',
-		backgroundColor: 'purple'
+	},
+	isActive: {
+		backgroundColor: '#fe5b61',
+		opacity: 1,
+		flex:1,
+		justifyContent: 'center',
+		paddingTop: 5,
+		paddingBottom: 5,
+		paddingRight: 10,
+		paddingLeft: 10,
+		borderRadius: 15,
+		marginLeft: 20,
+		marginRight: 80,
+	},
+	edit: {
+		backgroundColor: 'transparent',
+		flex:1,
+		justifyContent: 'center',
+		paddingTop: 7,
+		paddingBottom: 7,
+		paddingRight: 20,
+		paddingLeft: 20,
+		borderRadius: 20,
+		borderColor: '#fe5b61',
+		borderWidth: 5,
+		marginRight: 20,
+		marginLeft: 80,
+	},
+	title: {
+		flex:1 ,
+		fontFamily: 'Avenir-Medium',
+		fontSize: 35,
+		fontWeight: 'bold',
+		textAlign: 'center',
+		alignSelf: 'center',
+		paddingBottom: 20,
 	}
 })
-
-export default SavedLocationCard

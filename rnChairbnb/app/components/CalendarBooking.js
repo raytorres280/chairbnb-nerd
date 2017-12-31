@@ -24,7 +24,7 @@ class CalendarBooking extends Component {
 
 	loading() {
 		this.setState({ loading: true })
-		this.props.bookTrip(this.state.dates)
+		this.props.bookTrip(this.state.dates, this.props.navigation.state.params.location)
 	}
 
 	toggleModal() {
@@ -163,9 +163,9 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		bookTrip: (dates) => {
+		bookTrip: (dates, loc) => {
 			console.log('btn press')
-			const thunk = checkBooking(Object.keys(dates))
+			const thunk = checkBooking(Object.keys(dates), loc)
 			dispatch(thunk)
 
 			// this.props.navigation.naviate('Details')
