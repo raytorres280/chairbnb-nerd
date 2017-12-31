@@ -3,7 +3,11 @@ const Location = require('../db/models').Location
 const Host = require('../db/models').Host
 
 router.get('/', (req, res) => {
-  Location.findAll()
+  Location.findAll({
+		include: [
+			{model: Host},
+		]
+	})
   .then(list => res.json(list))
   .catch(err => console.log(err))
 })
