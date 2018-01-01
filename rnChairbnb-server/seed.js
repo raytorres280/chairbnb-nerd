@@ -3,7 +3,7 @@ const Host = require('./db/models/Host')
 const Location = require('./db/models/Location')
 const Order = require('./db/models/Order')
 const User = require('./db/models/User')
-
+const Message = require('./db/models/Message')
 
 const hosts = [
 	{ first: 'ray',
@@ -177,6 +177,31 @@ const orders = [
 	}
 ]
 
+const messages = [
+	{
+		text: 'hello i have a problem',
+		sent_from: 'user',
+		hostId: 1,
+		userId: 1,
+		createdAt: new Date('2017-12-25')
+	},
+	{
+		text: 'whats the problem?',
+		sent_from: 'host',
+		hostId: 1,
+		userId: 1,
+		createdAt: new Date('2017-12-26')
+	},
+	{
+		text: 'there are no more towels',
+		sent_from: 'user',
+		hostId: 1,
+		userId: 1,
+		createdAt: new Date('2017-12-27')
+	}
+
+]
+
 const seed = () =>
 	Promise.all(hosts.map(host =>
 		Host.create(host))
@@ -197,6 +222,12 @@ const seed = () =>
 	Promise.all(orders.map(order => {
 		console.log('orders done')
 		Order.create(order)
+		})
+	))
+	.then(() =>
+	Promise.all(messages.map(message => {
+		console.log('message done')
+		Message.create(message)
 		})
 	))
 

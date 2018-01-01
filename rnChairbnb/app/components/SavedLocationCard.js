@@ -9,11 +9,15 @@ import store from '../store'
 class SavedLocationCard extends Component {
 	constructor(props) {
 		super(props)
+		this.state = {
+
+		}
+		console.log(props)
 	}
 
 	render() {
 		return (
-			<View style={styles.card}>
+			<TouchableHighlight onPress={() => console.log('press')} style={styles.container}>
 				<View
 					style={{
 						flex: 1,
@@ -46,29 +50,25 @@ class SavedLocationCard extends Component {
 							justifyContent: 'flex-start'
 						}}
 					>
-						<View style={styles.toasts}>
-							<TouchableHighlight
-								style={styles.edit}
-								onPress={() => this.props.navigation
-									.navigate('TripDetails', { order: this.props.order })}
-							>
-								<Text style={{textAlign: 'center'}}>Edit</Text>
-							</TouchableHighlight>
-						</View>
 						{/* title of order  */}
-						<Text style={styles.title}>{this.props.location.chair}</Text>
+						<Text>{this.props.fav.chair}</Text>
 					</View>
 				</View>
-			</View>
+			</TouchableHighlight>
 		)
 	}
 }
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'purple'
+		flex: .25,
+		justifyContent: 'flex-start',
+		backgroundColor: 'green',
+		borderRadius: 5,
+		borderWidth: .15,
+		marginTop: 10,
+		marginBottom: 10,
+		marginRight: 5,
+		marginLeft: 5,
 	}
 })
 

@@ -69,7 +69,7 @@ export default OrderCard
 
 const styles = StyleSheet.create({
 	card: {
-		flex: 1,
+		flex: .25,
 		justifyContent: 'center',
 		backgroundColor: 'green',
 		borderRadius: 5,

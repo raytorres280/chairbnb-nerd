@@ -6,7 +6,31 @@ const initialState = {
 	locations: [],
 	orders: [],
 	saved: [],
-	inbox: [],
+	inbox: [
+		// {
+		// 	_id: 2,
+		// 	text: 'Hello tanya',
+		// 	createdAt: new Date(),
+		// 	user: {
+		// 		_id: 2,
+		// 		name: 'me',
+		// 		avatar: 'https://facebook.github.io/react/img/logo_og.png',
+		// 	},
+		// 	// Any additional custom parameters are passed through
+		// },
+		// {
+		// 	_id: 1,
+		// 	text: 'Hello Danielle',
+		// 	createdAt: new Date('2017-12-25'),
+		// 	user: {
+		// 		_id: 2,
+		// 		name: 'React Native',
+		// 		avatar: 'https://facebook.github.io/react/img/logo_og.png',
+		// 	},
+		// 	// Any additional custom parameters are passed through
+		// },
+
+	],
 	validBooking: false,
 	conflictingOrders: []
 }
@@ -17,6 +41,7 @@ const INVALID_BOOKING = 'INVALID_BOOKING'
 const GOT_ORDERS = 'GOT_ORDERS'
 const CREATED_ORDER = 'CREATED_ORDER'
 const CREATED_FAV = 'CREATED_FAV'
+const GOT_MESSSAGES = 'GOT_MESSSAGES'
 
 export const gotLocations = (locations) => ({
 	type: GOT_LOCATIONS,
@@ -53,6 +78,11 @@ export const createFav = (loc) => {
 		dispatch(action)
 	}
 }
+
+export const gotMessages = (messages) => ({
+	type: GOT_MESSSAGES,
+	messages
+})
 
 //change to post for security later
 export const fetchOrders = (user) => {
@@ -136,6 +166,28 @@ export const fetchLocations = () => {
 	}
 }
 
+export const fetchMessages = (user) => {
+	return function(dispatch) {
+		return axios.get(`http://localhost:3000/api/messages/${user.id}`)
+			.then(res => res.data)
+			.then(messages => {
+				messages = messages.map(msg => ({
+					_id: msg.id,
+					text: msg.text,
+					createdAt: msg.createdAt,
+					user: {
+						_id: (msg.sent_from === 'user' ? 1 : 2),
+						name: 'msg.user.first',
+						avatar: 'https://image.architonic.com/imgTre/09_11/plastik-Vertex-KarimRashid-14-b.jpg',
+					},
+				}))
+				const action = gotMessages(messages)
+				dispatch(action)
+			})
+			.catch(err => console.log(err))
+	}
+}
+
 const rootReducer = (state = initialState, action) => {
 	switch(action.type) {
 	case GOT_LOCATIONS:
@@ -150,6 +202,8 @@ const rootReducer = (state = initialState, action) => {
 		return {...state, orders: [...state.orders, action.order]}
 	case CREATED_FAV:
 		return {...state, saved: [...state.saved, action.location]}
+	case GOT_MESSSAGES:
+		return {...state, inbox: action.messages}
 	default:
 		return { ...state }
 	}

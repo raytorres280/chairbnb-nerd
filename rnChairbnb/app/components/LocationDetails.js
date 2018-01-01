@@ -10,7 +10,7 @@ class LocationDetails extends Component {
 		super(props)
 		this.state = {
 			map: null, //something to do with map that isnt there yet.
-			isFavorite: props.saved.filter((savedLoc) => (this.props.navigation.state.params.location.id === savedLoc.id))
+			isFavorite: (props.saved.filter((savedLoc) => (this.props.navigation.state.params.location.id === savedLoc.id)).length < 1 ? false : true)
 		}
 	}
 
@@ -23,7 +23,7 @@ class LocationDetails extends Component {
 
 	componentWillReceiveProps(newProps) {
 		if(newProps.saved.length > this.props.saved.length) {
-			let bool = this.props.saved.filter((savedLoc) => (this.props.navigation.state.params.location.id === savedLoc.id))
+			let bool = (newProps.saved.filter((savedLoc) => (newProps.navigation.state.params.location.id === savedLoc.id)).length < 1 ? false: true)
 			this.setState({
 				isFavorite: bool
 			})

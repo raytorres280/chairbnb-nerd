@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { TouchableHighlight, ScrollView, View, Text, StyleSheet } from 'react-native'
 import SavedLocationCard from './SavedLocationCard'
+import { connect } from 'react-redux'
 
 class Saved extends Component {
 	constructor(props) {
@@ -11,24 +12,32 @@ class Saved extends Component {
 	}
 
 	render() {
+		let items = this.props.saved.map(fav => <SavedLocationCard key={fav.id} fav={fav}/>)
 		return (
 			<View style={styles.container}>
 				<View style={styles.header}>
 					<Text>Saved trips</Text>
 				</View>
-				<ScrollView contentContainerStyle={styles.item}>
-
+				<ScrollView contentContainerStyle={styles.list}>
+					{items}
 				</ScrollView>
 			</View>
 		)
 	}
 }
 
+const mapState = (state) => {
+	return {
+		saved: state.saved
+	}
+}
+
+export default connect(mapState)(Saved)
+
 const styles = StyleSheet.create({
-	item: {
+	list: {
 		flex: 1,
-		justifyContent: 'flex-end',
-		backgroundColor: 'blue'
+		justifyContent: 'flex-start',
 	},
 	container: {
 		flex: 1,
@@ -44,5 +53,3 @@ const styles = StyleSheet.create({
 
 	}
 })
-
-export default Saved

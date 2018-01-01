@@ -74,7 +74,7 @@ export const Tabs = TabNavigator({
 	Explore: {
 		screen: ExploreStack,
 		navigationOptions: {
-			tabBarLabel: 'Explossre',
+			tabBarLabel: 'Explore',
 			tabBarIcon: ({ tintColor }) => <Icon name="ios-search" size={35} color={tintColor} />,
 		},
 	},
@@ -95,7 +95,7 @@ export const Tabs = TabNavigator({
 	Inbox: {
 		screen: Inbox,
 		navigationOptions: {
-			tabBarLabel: 'Me',
+			tabBarLabel: 'Inbox',
 			tabBarIcon: ({ tintColor }) => <Icon name="ios-chatbubbles-outline" size={35} color={tintColor} />
 		},
 	},

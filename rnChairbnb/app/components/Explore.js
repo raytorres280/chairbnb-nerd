@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		justifyContent: 'space-around',
-		backgroundColor: 'orange'
+		backgroundColor: 'white'
 	},
 	search: {
 	}
