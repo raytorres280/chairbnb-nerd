@@ -70,6 +70,29 @@ export const TripsStack = StackNavigator({
 	animationEnabled: false,
 })
 
+export const SavedStack = StackNavigator({
+	Saved: {
+		screen: Saved,
+		navigationOptions: {
+			title: '',
+			headerStyle: {
+				height: 0,
+			}
+		},
+	},
+	Details: {
+		screen: LocationDetails,
+		navigationOptions: {
+			tabBarVisible: false,
+			headerStyle: {
+				height: 25,
+			}
+		}
+	},
+}, {
+	animationEnabled: false,
+})
+
 export const Tabs = TabNavigator({
 	Explore: {
 		screen: ExploreStack,
@@ -79,7 +102,7 @@ export const Tabs = TabNavigator({
 		},
 	},
 	Saved: {
-		screen: Saved,
+		screen: SavedStack,
 		navigationOptions: {
 			tabBarLabel: 'Saved',
 			tabBarIcon: ({ tintColor }) => <Icon name="ios-heart-outline" size={35} color={tintColor} />

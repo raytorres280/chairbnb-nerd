@@ -10,8 +10,8 @@ const LocationCard = (props) => {
 		props.navigation.navigate('Details', { location: props.location })
 	}
 	return (
-		<TouchableHighlight  onPress={() => goDetails()}>
-			<View style={styles.container}>
+		<TouchableHighlight  onPress={() => goDetails()} style={styles.container}>
+			<View style={{flex: 1}}>
 				<Image style={styles.thumbImg}
 					source={{uri: 'https://image.architonic.com/imgTre/09_11/plastik-Vertex-KarimRashid-14-b.jpg'}}
 				/>
@@ -32,22 +32,22 @@ const LocationCard = (props) => {
 }
 const styles = StyleSheet.create({
 	container: {
-		height: 200,
-		width:150,
+		width: '40%',
+		height: '45%',
 		backgroundColor: 'snow',
 		marginTop: 10,
-		marginLeft: 12,
-		marginRight: 12
+		marginLeft: '5%',
+		marginRight: '5%',
 	},rating: {
 		flexDirection: 'row',
 	},
 	thumbImg: {
-		flex: 1,
+		flex: 5,
 		borderRadius: 5,
 		borderWidth: 1,
 	},
 	thumbText: {
-		flex: 1,
+		flex: 5,
 		justifyContent: 'space-between',
 	}
 })

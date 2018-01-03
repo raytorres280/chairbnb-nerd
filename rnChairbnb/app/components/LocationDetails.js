@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, ScrollView, Text, Image, StyleSheet, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
-import { createFav } from '../reducers'
+import { deleteFav, createFav } from '../reducers'
 import store from '../store'
 
 class LocationDetails extends Component {
@@ -36,6 +36,9 @@ class LocationDetails extends Component {
 			store.dispatch(thunk)
 		} else {
 			//remoe from savedLoc
+			const thunk = deleteFav(this.props.navigation.state.params.location, {id: 1})
+			store.dispatch(thunk)
+			this.props.navigation.goBack()
 		}
 	}
 	render() {

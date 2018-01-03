@@ -6,31 +6,7 @@ const initialState = {
 	locations: [],
 	orders: [],
 	saved: [],
-	inbox: [
-		// {
-		// 	_id: 2,
-		// 	text: 'Hello tanya',
-		// 	createdAt: new Date(),
-		// 	user: {
-		// 		_id: 2,
-		// 		name: 'me',
-		// 		avatar: 'https://facebook.github.io/react/img/logo_og.png',
-		// 	},
-		// 	// Any additional custom parameters are passed through
-		// },
-		// {
-		// 	_id: 1,
-		// 	text: 'Hello Danielle',
-		// 	createdAt: new Date('2017-12-25'),
-		// 	user: {
-		// 		_id: 2,
-		// 		name: 'React Native',
-		// 		avatar: 'https://facebook.github.io/react/img/logo_og.png',
-		// 	},
-		// 	// Any additional custom parameters are passed through
-		// },
-
-	],
+	inbox: [],
 	validBooking: false,
 	conflictingOrders: []
 }
@@ -41,6 +17,8 @@ const INVALID_BOOKING = 'INVALID_BOOKING'
 const GOT_ORDERS = 'GOT_ORDERS'
 const CREATED_ORDER = 'CREATED_ORDER'
 const CREATED_FAV = 'CREATED_FAV'
+const DELETED_FAV = 'DELETED_FAV'
+const GOT_FAVS = 'GOT_FAVS'
 const GOT_MESSSAGES = 'GOT_MESSSAGES'
 
 export const gotLocations = (locations) => ({
@@ -64,18 +42,65 @@ export const createdOrder = (order) => ({
 
 export const gotOrders = (orders) => ({
 	type: GOT_ORDERS,
-		orders
+	orders
 })
 
-export const createdFav = (loc) => ({
+export const createdFav = (location) => ({
 	type: CREATED_FAV,
-	location: loc
+	location
 })
+export const deletedFav = (location) => ({
+	type: DELETED_FAV,
+	location
+})
+
+export const gotFavorites = (favs) => ({
+	type: GOT_FAVS,
+	saved: favs
+})
+
 
 export const createFav = (loc) => {
 	return function(dispatch) {
-		const action = createdFav(loc)
-		dispatch(action)
+		return axios({
+			url: `http://localhost:3000/api/favorites/${loc.id}`,
+			method: 'post',
+			data: {id: 1}
+		})
+			.then(results => results.data)
+			.then(data => {
+				const action = createdFav(loc)
+				dispatch(action)
+			})
+	}
+}
+
+export const deleteFav = (loc, user) => {
+	return function(dispatch) {
+		return axios({
+			url: `http://localhost:3000/api/favorites/${loc.id}/${user.id}`,
+			method: 'delete',
+			params: {id: 1}
+		})
+			.then(results => results.data)
+			.then(deleteCnt => {
+				if(deleteCnt > 0) {
+					const action = fetchFavorites({id: 1})
+					dispatch(action)
+				}
+			})
+			.catch(err => console.log(err))
+	}
+}
+
+export const fetchFavorites = (user) => {
+	return function(dispatch) {
+		return axios(`http://localhost:3000/api/favorites/${user.id}`)
+			.then(results => results.data)
+			.then(data => {
+				const action = gotFavorites(data)
+				dispatch(action)
+			})
 	}
 }
 
@@ -181,7 +206,7 @@ export const fetchMessages = (user) => {
 						avatar: 'https://image.architonic.com/imgTre/09_11/plastik-Vertex-KarimRashid-14-b.jpg',
 					},
 				}))
-				const action = gotMessages(messages)
+				const action = gotMessages(messages.reverse())
 				dispatch(action)
 			})
 			.catch(err => console.log(err))
@@ -201,9 +226,11 @@ const rootReducer = (state = initialState, action) => {
 	case CREATED_ORDER:
 		return {...state, orders: [...state.orders, action.order]}
 	case CREATED_FAV:
-		return {...state, saved: [...state.saved, action.location]}
+		return {...state, saved: [...state.saved, action.location ]}
 	case GOT_MESSSAGES:
 		return {...state, inbox: action.messages}
+	case GOT_FAVS:
+		return {...state, saved: action.saved }
 	default:
 		return { ...state }
 	}

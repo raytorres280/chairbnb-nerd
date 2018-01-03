@@ -5,6 +5,7 @@ import Search from './Search'
 import LocationCard from './LocationCard'
 import { fetchLocations } from '../reducers'
 import store from '../store'
+import Swipeout from 'react-native-swipeout'
 
 class SavedLocationCard extends Component {
 	constructor(props) {
@@ -12,12 +13,16 @@ class SavedLocationCard extends Component {
 		this.state = {
 
 		}
-		console.log(props)
+	}
+
+	goDetails() {
+		console.log(this.props)
+		this.props.navigation.navigate('Details', { location: this.props.fav })
 	}
 
 	render() {
 		return (
-			<TouchableHighlight onPress={() => console.log('press')} style={styles.container}>
+			<TouchableHighlight onPress={() => this.goDetails()} style={styles.container}>
 				<View
 					style={{
 						flex: 1,

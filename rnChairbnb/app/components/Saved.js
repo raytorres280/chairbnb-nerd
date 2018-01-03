@@ -1,18 +1,29 @@
 import React, { Component } from 'react'
-import { TouchableHighlight, ScrollView, View, Text, StyleSheet } from 'react-native'
+import { ScrollView, View, Text, StyleSheet } from 'react-native'
 import SavedLocationCard from './SavedLocationCard'
 import { connect } from 'react-redux'
+import store from '../store'
+import { fetchFavorites } from '../reducers'
 
 class Saved extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
+	
 
-		}
+	componentWillMount() {
+		const thunk = fetchFavorites({id: 1})
+		store.dispatch(thunk)
 	}
 
 	render() {
-		let items = this.props.saved.map(fav => <SavedLocationCard key={fav.id} fav={fav}/>)
+		let items
+		if(this.props.saved.length > 0)
+			items = this.props.saved
+				.map(fav =>
+					<SavedLocationCard
+						key={fav.id}
+						fav={fav}
+						navigation={this.props.navigation}
+					/>
+				)
 		return (
 			<View style={styles.container}>
 				<View style={styles.header}>

@@ -17,7 +17,6 @@ class Explore extends Component {
 	}
 
 	componentWillMount() {
-		console.log(this.props)
 		const thunk = fetchLocations()
 		store.dispatch(thunk)
 	}
@@ -29,11 +28,13 @@ class Explore extends Component {
 		return(
 			<View style={styles.container}>
 				<Search />
-				<ScrollView contentContainerStyle={styles.location}>
-					{
-						list
-					}
-				</ScrollView>
+				<View style={styles.scrollContainer}>
+					<ScrollView contentContainerStyle={styles.location}>
+						{
+							list
+						}
+					</ScrollView>
+				</View>
 			</View>
 
 		)
@@ -57,9 +58,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		justifyContent: 'space-around',
+		justifyContent: 'flex-start',
 		backgroundColor: 'white'
 	},
-	search: {
+	scrollContainer: {
+		flex: 9,
 	}
 })

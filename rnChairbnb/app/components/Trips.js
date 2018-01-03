@@ -13,15 +13,10 @@ class Trips extends Component {
 		this.state = { }
 	}
 	componentWillMount() {
-		console.log(this.props)
 		const thunk = fetchOrders({id: 1})
 		store.dispatch(thunk)
 	}
-	componentWillReceiveProps(newProps) {
-		// if(!(newProps.orders.length > this.props.orders.length)) {
-    //
-		// }
-		console.log('component will receive props')
+	componentWillReceiveProps() {
 	}
 
 	render() {

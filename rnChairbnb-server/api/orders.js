@@ -29,7 +29,6 @@ router.get('/all/:id', (req, res) => {
   	]
 	})
 	.then(json => {
-		console.log(json)
 		res.json(json)
 	})
 	.catch(err => console.log(err))
@@ -166,7 +165,6 @@ router.post('/', (req, res) => {
 		else return { orders: order, created: created }
 	})
 	.then(data => {
-		console.log('orders...', data.orders)
 		res.send({ orders: data.orders, created: data.created })
 	})
 	.catch(err => console.log(err))

@@ -5,6 +5,7 @@ const Location = require('./Location');
 const Order = require('./Order');
 const Host = require('./Host');
 const Message = require('./Message');
+const Favorite = require('./Favorite');
 //TODO: RELATIONSHIPS
 //TODO: IMPORT MODELS
 
@@ -39,6 +40,17 @@ Message.belongsTo(Host, {
   }
 })
 
+//favorite
+Favorite.belongsTo(User, {
+	foreignKey: {
+    allowNull: false
+  }
+})
+Favorite.belongsTo(Location, {
+	foreignKey: {
+    allowNull: false
+  }
+})
 //TODO: review 1:1 (belongsTo) order & review to location n:1 location (hasMany)
 
 module.exports = {
@@ -46,5 +58,6 @@ module.exports = {
   Location,
   Order,
   Host,
-	Message
+	Message,
+	Favorite
 }
