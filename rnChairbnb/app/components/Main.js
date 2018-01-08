@@ -9,6 +9,7 @@ import Explore from './Explore'
 import Saved from './Saved'
 import Trips from './Trips'
 import Inbox from './Inbox'
+import Chat from './Chat'
 import Profile from './Profile'
 import LocationDetails from './LocationDetails'
 import Settings from './Settings'
@@ -47,29 +48,6 @@ export const ExploreStack = StackNavigator({
 }, {
 	animationEnabled: false,
 })
-export const TripsStack = StackNavigator({
-	Trips: {
-		screen: Trips,
-		navigationOptions: {
-			title: '',
-			headerStyle: {
-				height: 0,
-			}
-		},
-	},
-	TripDetails: {
-		screen: TripDetails,
-		navigationOptions: {
-			tabBarVisible: false,
-			headerStyle: {
-				height: 25,
-			}
-		}
-	},
-}, {
-	animationEnabled: false,
-})
-
 export const SavedStack = StackNavigator({
 	Saved: {
 		screen: Saved,
@@ -92,7 +70,42 @@ export const SavedStack = StackNavigator({
 }, {
 	animationEnabled: false,
 })
-
+export const TripsStack = StackNavigator({
+	Trips: {
+		screen: Trips,
+		navigationOptions: {
+			title: '',
+			headerStyle: {
+				height: 0,
+			}
+		},
+	},
+	TripDetails: {
+		screen: TripDetails,
+		navigationOptions: {
+			tabBarVisible: false,
+			headerStyle: {
+				height: 25,
+			}
+		}
+	},
+}, {
+	animationEnabled: false,
+})
+export const InboxStack = StackNavigator({
+	Inbox: {
+		screen: Inbox,
+		navigationOptions: {
+			title: 'Inbox'
+		}
+	},
+	Chat: {
+		screen: Chat,
+		navigationOptions: {
+			title: 'Chat'
+		}
+	}
+})
 export const Tabs = TabNavigator({
 	Explore: {
 		screen: ExploreStack,
@@ -116,7 +129,7 @@ export const Tabs = TabNavigator({
 		},
 	},
 	Inbox: {
-		screen: Inbox,
+		screen: InboxStack,
 		navigationOptions: {
 			tabBarLabel: 'Inbox',
 			tabBarIcon: ({ tintColor }) => <Icon name="ios-chatbubbles-outline" size={35} color={tintColor} />

@@ -9,6 +9,12 @@ class OrderCard extends Component {
 
 		}
 	}
+
+	_onView() {
+		this.props.navigation
+			.navigate('TripDetails', { order: this.props.order })
+	}
+
 	render() {
 		return (
 			<View style={styles.card}>
@@ -50,10 +56,9 @@ class OrderCard extends Component {
 							</View>
 							<TouchableHighlight
 								style={styles.edit}
-								onPress={() => this.props.navigation
-									.navigate('TripDetails', { order: this.props.order })}
+								onPress={() => this._onView()}
 							>
-								<Text style={{textAlign: 'center'}}>Edit</Text>
+								<Text style={{textAlign: 'center'}}>View</Text>
 							</TouchableHighlight>
 						</View>
 						{/* title of order  */}

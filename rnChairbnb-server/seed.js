@@ -198,8 +198,14 @@ const messages = [
 		hostId: 1,
 		userId: 1,
 		createdAt: new Date('2017-12-27')
+	},
+	{
+		text: 'hello from spambot',
+		sent_from: 'host',
+		hostId: 2,
+		userId: 1,
+		createdAt: new Date('2017-12-27')
 	}
-
 ]
 
 const seed = () =>

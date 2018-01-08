@@ -59,7 +59,6 @@ export const gotFavorites = (favs) => ({
 	saved: favs
 })
 
-
 export const createFav = (loc) => {
 	return function(dispatch) {
 		return axios({
@@ -108,7 +107,6 @@ export const gotMessages = (messages) => ({
 	type: GOT_MESSSAGES,
 	messages
 })
-
 //change to post for security later
 export const fetchOrders = (user) => {
 	return function(dispatch) {
@@ -195,18 +193,28 @@ export const fetchMessages = (user) => {
 	return function(dispatch) {
 		return axios.get(`http://localhost:3000/api/messages/${user.id}`)
 			.then(res => res.data)
-			.then(messages => {
-				messages = messages.map(msg => ({
-					_id: msg.id,
-					text: msg.text,
-					createdAt: msg.createdAt,
-					user: {
-						_id: (msg.sent_from === 'user' ? 1 : 2),
-						name: 'msg.user.first',
-						avatar: 'https://image.architonic.com/imgTre/09_11/plastik-Vertex-KarimRashid-14-b.jpg',
-					},
-				}))
-				const action = gotMessages(messages.reverse())
+			.then(chats => {
+
+				const action = gotMessages(chats)
+				dispatch(action)
+			})
+			.catch(err => console.log(err))
+	}
+}
+
+export const createMessage = (message) => {
+	return function(dispatch) {
+		return axios({
+			url: 'http://localhost:3000/api/messages/',
+			method: 'post',
+			data: message
+		})
+			.then(res => {
+				return res.data
+			})
+			.then(chats => {
+				console.log('create message response..', chats)
+				const action = fetchMessages()
 				dispatch(action)
 			})
 			.catch(err => console.log(err))
